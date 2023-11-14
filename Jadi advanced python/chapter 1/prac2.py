@@ -1,9 +1,9 @@
 from collections import OrderedDict as od
 
-spain = od([('wins', 0),('loses', 0),('draws', 0),('points', 0),('goalin',0),('goalout',0)])
-iran = od([('wins', 0),('loses', 0),('draws', 0),('points', 0),('goalin',0),('goalout',0)])
-portugal = od([('wins', 0),('loses', 0),('draws', 0),('points', 0),('goalin',0),('goalout',0)])
-morocco = od([('wins', 0),('loses', 0),('draws', 0),('points', 0),('goalin',0),('goalout',0)])
+spain = od([('Spain', ''),('wins', 0),('loses', 0),('draws', 0),('points', 0),('goalin',0),('goalout',0),('gdifferece', 0)])
+iran = od([('Iran', ''),('wins', 0),('loses', 0),('draws', 0),('points', 0),('goalin',0),('goalout',0),('gdifferece', 0)])
+portugal = od([('Portugal', ''),('wins', 0),('loses', 0),('draws', 0),('points', 0),('goalin',0),('goalout',0),('gdifferece', 0)])
+morocco = od([('Morocco', ''),('wins', 0),('loses', 0),('draws', 0),('points', 0),('goalin',0),('goalout',0),('gdifferece', 0)])
 
 
 def stat_1(x):
@@ -64,7 +64,7 @@ def stat_3(x):
     elif mc<ir:
         iran['wins'] += 1
         iran['points'] += 3
-        mc["loses"] += 1
+        morocco["loses"] += 1
     morocco['goalout'] += mc
     morocco['goalin'] += ir
     iran['goalout'] += ir
@@ -150,11 +150,21 @@ stat_4(input_data[3])
 stat_5(input_data[4])
 stat_6(input_data[5])
 
-print("Spain wins:{} , loses:{} , draws:{} , goal diffrence:{} , points:{}".format(spain['wins'], spain['loses'], spain['draws'],
-                                                                            spain['goalout']-spain['goalin'], spain['points']))
-print("Iran wins:{} , loses:{} , draws:{} , goal diffrence:{} , points:{}".format(iran['wins'], iran['loses'], iran['draws'],
-                                                                            iran['goalout']-iran['goalin'], iran['points']))
-print("Portugal wins:{} , loses:{} , draws:{} , goal diffrence:{} , points:{}".format(portugal['wins'], portugal['loses'], portugal['draws'],
-                                                                            portugal['goalout']-portugal['goalin'], portugal['points']))
-print("Morocco wins:{} , loses:{} , draws:{} , goal diffrence:{} , points:{}".format(morocco['wins'], morocco['loses'], morocco['draws'],
-                                                                            morocco['goalout']-morocco['goalin'], morocco['points']))
+spain['gdifferece'] = spain['goalout'] - spain['goalin']
+iran['gdifferece'] = iran['goalout'] - iran['goalin']
+portugal['gdifferece'] = portugal['goalout'] - portugal['goalin']
+morocco['gdifferece'] = morocco['goalout'] - morocco['goalin']
+
+biglist = []
+biglist.append(list(iran.items()))
+biglist.append(list(morocco.items()))
+biglist.append(list(portugal.items()))
+biglist.append(list(spain.items()))
+
+biglist.sort()
+biglist.sort(key = lambda x:(x[4], x[1]), reverse=True)
+
+print("{} wins:{} , loses:{} , draws:{} , goal difference:{} , points:{}".format(biglist[0][0][0], biglist[0][1][1], biglist[0][2][1], biglist[0][3][1], biglist[0][7][1], biglist[0][4][1]))
+print("{} wins:{} , loses:{} , draws:{} , goal difference:{} , points:{}".format(biglist[1][0][0], biglist[1][1][1], biglist[1][2][1], biglist[1][3][1], biglist[1][7][1], biglist[1][4][1]))
+print("{} wins:{} , loses:{} , draws:{} , goal difference:{} , points:{}".format(biglist[2][0][0], biglist[2][1][1], biglist[2][2][1], biglist[2][3][1], biglist[2][7][1], biglist[2][4][1]))
+print("{} wins:{} , loses:{} , draws:{} , goal difference:{} , points:{}".format(biglist[3][0][0], biglist[3][1][1], biglist[3][2][1], biglist[3][3][1], biglist[3][7][1], biglist[3][4][1]))

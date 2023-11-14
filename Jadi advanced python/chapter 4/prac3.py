@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 import mysql.connector
 import getpass
+from urllib.request import urlopen
 
 a = input("please enter car name in following format: 'brand model' or 'brand' ")
 a = a.split()
@@ -9,8 +10,9 @@ a = "/".join(a)
 url = 'https://www.truecar.com/used-cars-for-sale/listings/%s/' % (a)
 
 def get_price_and_milage(url):
-    response = requests.get(url)
-    restext = response.text
+    response = urlopen(url).read()
+    #response = requests.get(url)
+    restext = response
     soup = bs(restext, 'html.parser')
     posts = soup.find_all('a', class_ = 'linkable vehicle-card-overlay order-2')
     postsurl = []
@@ -22,8 +24,9 @@ def get_price_and_milage(url):
     priceandmilage = []
 
     for url in postsurl:
-        response = requests.get(url)
-        restext = response.text
+        #response = requests.get(url)
+        response = urlopen(url).read()
+        restext = response
         soup = bs(restext, 'html.parser')
         title = soup.find('div', class_="heading-3_5 normal-case heading-md-2 md:normal-case grow leading-[1.2] mb-1")
         title = title.text
